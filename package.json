@@ -1,8 +1,8 @@
 {
-  "name": "popup_modal",
+  "name": "popup_modal_cat",
   "version": "1.0.0",
   "description": "A popup modal to replace the brwoser default's popup modal\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dugly looking\u001b[2~ \u001b[2~d\u001b[2~ads\u001b[3~\u001b[3~\u001b[3~\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b browser default's popu modal",
-  "main": "popupmodal.js",
+  "main": "./js/popupmodal-min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
