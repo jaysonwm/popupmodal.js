@@ -1,3 +1,2 @@
-# popcat
-### Popup modal to replace to default browser popup modal.  
-Renovation in progress...
+# popupmodal.js
+### A pure and simple javascript popup modal plugin. :)
