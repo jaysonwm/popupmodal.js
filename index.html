@@ -3,10 +3,244 @@
 <head>
 	<title>Pikto Popup</title>
 	<meta charset="utf-8">
-  	<link rel="stylesheet" href="popcat.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/popupmodal.css" />
 </head>
 <body>
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  	<script src="popcat.js"></script>
+	<section id="intro">
+		<h1>popupmodal.js</h1>
+		<span class="version">
+			Version 1.0.0<br>
+			<a href="https://github.com/jaysonwm/popcat" target="_blank">Github</a>
+		</span>
+		<br>
+		<span>A pure and simple javascript popup modal plugin.<br/>There are 3 types of popup modal types.<br/>Below is a simple simple demo.</span>
+		<div class="demo">
+			<a id="simple_alert" class="demo_btn">Alert</a>
+			<a id="simple_confirm" class="demo_btn">Confirm</a>
+			<a id="simple_prompt" class="demo_btn">Prompt</a>
+		</div>
+		<span>Code example : </span>
+		<div class="code_block">
+			<span class="comment">// Alert</span>
+			<span class="code">popup.alert( { content : .... } );</span><br>
+			<span class="comment">// Confirm</span>
+			<span class="code">popup.confirm( { content : .... } );</span><br>
+			<span class="comment">// Prompt</span>
+			<span class="code">popup.prompt( { content : .... } );</span><br>
+		</div>
+	</section>
+	<section id="usage">
+		<h1>&lt;Usage&gt;</h1>
+		<span>Include the following in your project.</span>
+		<div class="code_block">
+			<span class="commment">// CSS</span>
+			<span class="code">&lt;link rel="stylesheet" href="your-path/popupmodal.css" /&gt;</span><br>
+			<span class="commment">// JS</span>
+			<span class="code">&lt;script src="your-path/popupmodal-min.js">&gt;&lt;/script&gt;</span>
+		</div>
+		<span>and attach your desire element with a click event listener.</span>
+		<div class="code_block">
+			<span class="code">
+				document.getElementById('your-element').addEventListener('click', function()){<br>
+				&nbsp;&nbsp;popup.alert(......);<br>
+				}
+			</span>
+		</div>
+		<span>...and you're done!</span>
+	</section>
+	<section id="advanced">
+		<h1>&lt;Options&gt;</h1>
+		<div class="options">
+			<table border="1">
+				<tr>
+					<td>Options : Type</td>
+					<td>Default</td>
+					<td>Description</td>
+					<!-- <td>Demo</td> -->
+				</tr>
+				<tr>
+					<td>content : string</td>
+					<td>null</td>
+					<td>
+						The content to be shown in the popup modal. DOM element is acceptable too. Popup modal will not be shown if there is no content.
+					</td>
+					<!-- <td>--</td> -->
+				</tr>
+				<tr>
+					<td>keyboard : boolean</td>
+					<td>true</td>
+					<td>
+						To enable 'enter' and 'esc' key on 'Ok' and 'Cancel' button respectively.
+					</td>
+					<!-- <td>
+						<a id="key_false" class="demo_btn">keyboard : false</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>input_length : number</td>
+					<td>99</td>
+					<td>
+						Configure the maximum number of character allowed.
+					</td>
+					<!-- <td>
+						<a id="input_length_10" class="demo_btn">input_length : 10</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>placeholder : string</td>
+					<td>""</td>
+					<td>
+						A placeholder for text box.
+					</td>
+					<!-- <td>
+						<a id="placeholder" class="demo_btn">placeholder : 'Name'</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>default_btns : object</td>
+					<td>null</td>
+					<td>
+						Configure the popup modal default button's text.<br>
+						<span class="note"><b>Note</b> : Default buttons for alert is 'ok'. For confirm and prompt is 'ok' and 'cancel'.</span>
+					</td>
+					<!-- <td>
+						<a id="def_btn" class="demo_btn">
+							default_btns : { <br>
+							ok : 'yes',	<br>
+							cancel : 'no' <br>
+							}
+						</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>custom_btns : object</td>
+					<td>null</td>
+					<td>
+						Add extra buttons to the popup modal. <br>
+						<span class="note"><b>Note</b> : Do checkout the next section on how to implement the button's callback function.</span>
+					</td>
+					<!-- <td>
+						<a id="cus_btn" class="demo_btn">
+							custom_btns : {<br>
+								btn1 : 'btn_1',<br>
+								btn2 : 'btn_2'<br>
+							}
+						</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>btn_align : string</td>
+					<td>'left'</td>
+					<td>
+						Popup modal's button alignment, either 'left' or 'right'.
+					</td>
+					<!-- <td>
+						<a id="btn_right" class="demo_btn">btn_align : 'right</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>modal_size : string / number</td>
+					<td>'small'</td>
+					<td>
+						The popup modal size. There are 'small', 'medium' and 'large'. Numbers are allowed as well, but without the 'px'. eg : 200.
+					</td>
+					<!-- <td>
+						<a id="modal_md" class="demo_btn">modal_size : 'medium'</a>
+						<a id="modal_200" class="demo_btn">modal_size : 200</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>bg_overlay_color : string</td>
+					<td>'#000'</td>
+					<td>
+						The overlay background color of the popup modal.
+					</td>
+					<!-- <td>
+						<a id="bg_red" class="demo_btn">bg_overlay_color : 'red'</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>effect : string</td>
+					<td>'top'</td>
+					<td>
+						The effect when the popup modal is shown. Slide from 'top', 'bottom', 'left' or 'right'. 'none' for no effect.
+					</td>
+					<!-- <td>
+						<a id="eff_btm" class="demo_btn">effect : 'bottom'</a>
+						<a id="eff_right" class="demo_btn">effect : 'right'</a>
+						<a id="eff_left" class="demo_btn">effect : 'left'</a>
+						<a id="eff_none" class="demo_btn">effect : 'none'</a>
+					</td> -->
+				</tr>
+			</table>
+		</div>
+		<span>Here's how to use them.</span>
+		<div class="code_block">
+			<span class="code">
+				popup.alert({ <br>
+					&nbsp;&nbsp;content: 'Hello from the other side...',<br>
+					&nbsp;&nbsp;keyboard : false,<br>
+					&nbsp;&nbsp;btn_align : 'right',<br>
+					&nbsp;&nbsp;effect : 'none',<br>
+					&nbsp;&nbsp;default_btns : {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;ok : 'the name you wanted to change'<br>
+					&nbsp;&nbsp;}<br>
+				});
+			</span>
+		</div>
+		<a id="option_demo" class="demo_btn">Demo</a>
+	</section>
+	<section id="callback">
+		<h1>&lt;Managing callbacks&gt;</h1>
+		<span>The callback function will receive only 1 parameter.</span>
+		<div class="options">
+			<table border="1">
+				<tr>
+					<td>param.</td>
+					<td>Description</td>
+				</tr>
+				<tr>
+					<td>e</td>
+					<td>
+						The event object. Usually is used to control the extra buttons.
+					</td>
+				</tr>
+				<tr>
+					<td>proceed</td>
+					<td>
+						The status after clicking either one of the default buttons. True for 'Ok' and false for any buttons except 'Ok'.
+					</td>
+				</tr>
+				<tr>
+					<td>input_value</td>
+					<td>
+						Get the value for input value for prompt popup modal.
+					</td>
+				</tr>
+			</table>
+		</div>
+		<span>Here's how to use the callback function.</span>
+		<span class="note"><b>Note</b> : There is no way of pausing javascript from executing. Thus, the only way is to create an event / callback to happen later.</span>
+		<div class="code_block">
+			<span class="code">
+				popup.confirm(<br>
+					&nbsp;&nbsp;{ content : 'Do you like me?', ...... }, <br>
+					&nbsp;&nbsp;function(param){<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;if(param.e.target.id == 'btn_extra_1_1'){<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;popup.alert( { content : 'Is ok, take your time :)' } );<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;} else if(param.proceed){<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;popup.alert( { content : 'Yay!' } );<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;} else if(!param.proceed){<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;popup.alert( { content : 'So sad...' } );<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+					&nbsp;&nbsp;} <br>
+				);
+			</span>
+		</div>
+		<a id="callback_demo" class="demo_btn">Demo </a>
+	</section>
+ 	<script src="./js/popupmodal-min.js"></script>
+ 	<script src="./demo.js"></script>
 </body>
 </html>

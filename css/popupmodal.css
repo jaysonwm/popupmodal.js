@@ -1,0 +1,121 @@
+.popup_modals {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1040;
+  margin: 5% auto;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  color: black;
+  -webkit-transition: opacity 0.15s, -webkit-transform 0.3s;
+  transition: opacity 0.15s, -webkit-transform 0.3s;
+  transition: opacity 0.15s, transform 0.3s;
+  transition: opacity 0.15s, transform 0.3s, -webkit-transform 0.3s;
+}
+.popup_modals.modal_small {
+  width: 400px;
+}
+.popup_modals.modal_medium {
+  width: 500px;
+}
+.popup_modals.modal_large {
+  width: 600px;
+}
+.popup_modals.fade {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.popup_modals.top {
+  -webkit-transform: translate(0, -25%);
+      -ms-transform: translate(0, -25%);
+          transform: translate(0, -25%);
+}
+.popup_modals.bottom {
+  -webkit-transform: translate(0, 25%);
+      -ms-transform: translate(0, 25%);
+          transform: translate(0, 25%);
+}
+.popup_modals.right {
+  -webkit-transform: translate(25%, 0);
+      -ms-transform: translate(25%, 0);
+          transform: translate(25%, 0);
+}
+.popup_modals.left {
+  -webkit-transform: translate(-25%, 0);
+      -ms-transform: translate(-25%, 0);
+          transform: translate(-25%, 0);
+}
+.popup_modals.in {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+.popup_modals .modal_content {
+  padding: 20px;
+}
+.popup_modals .modal_content .modal_input {
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-radius: 4px;
+  border: 1px solid #d2dee2;
+  box-sizing: border-box;
+}
+.popup_modals .modal_buttons {
+  padding: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.popup_modals .modal_buttons.right {
+  text-align: right;
+}
+.popup_modals .modal_buttons.right .btn {
+  margin-left: 5px;
+}
+.popup_modals .modal_buttons.left {
+  text-align: left;
+}
+.popup_modals .modal_buttons.left .btn {
+  margin-right: 5px;
+}
+.popup_modals .modal_buttons .btn {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.popup_modals .modal_buttons .btn.btn_pmry {
+  background-color: #2ecc71;
+}
+.popup_modals .modal_buttons .btn.btn_sdry {
+  background-color: #e74c3c;
+}
+.popup_modals .modal_buttons .btn.btn_extra {
+  background-color: #7f8c8d;
+}
+.popup_modals .modal_buttons .btn:hover {
+  cursor: pointer;
+}
+.modal_backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  -webkit-transition: opacity 0.15s;
+  transition: opacity 0.15s;
+}
+.modal_backdrop.fade {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.modal_backdrop.in {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
