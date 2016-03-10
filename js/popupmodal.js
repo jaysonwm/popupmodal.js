@@ -5,24 +5,20 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
 var popup;
 
 (function () {
-	var keyboard = true,
-	    modal_created = 0,
+	var modal_created = 0,
 	    cb_arr = [],
+	    config_arr = [];
+
+	var keyboard = true,
+	    backdrop_close = true,
 	    btn_align = 'left',
 	    modal_size = 'small',
 	    bg_overlay_color = '#000',
 	    modal_effect = 'top';
 
 	var curr_modal = undefined;
+	var curr_backdrop = 'modal_backdrop';
 	var modal_btns = {};
-
-	document.addEventListener('click', function (e) {
-		var activeElem = e.currentTarget.activeElement;
-
-		if (activeElem && activeElem.nodeName.toLowerCase() == 'a') {
-			activeElem.blur();
-		}
-	});
 
 	var addRemoveModal = function addRemoveModal(config) {
 		if (config == true) {
@@ -39,19 +35,20 @@ var popup;
 
 		var new_modal = document.createElement('div');
 		new_modal.id = 'popup_modal_' + modal_created;
-		new_modal.className = 'popup_modals fade ' + modal_effect;
+		new_modal.className = 'popup_modals fade ' + config_arr[config_arr.length - 1].modal_effect;
 
-		if (typeof modal_size === 'string') {
-			new_modal.className += ' modal_' + modal_size;
-		} else if (typeof modal_size === 'number') {
-			new_modal.style.width = modal_size + 'px';
+		var size = config_arr[config_arr.length - 1].modal_size;
+		if (typeof size === 'string') {
+			new_modal.className += ' modal_' + config_arr[config_arr.length - 1].modal_size;
+		} else if (typeof size === 'number') {
+			new_modal.style.width = size + 'px';
 		}
 
 		var modal_content = document.createElement('div');
 		modal_content.className = 'modal_content';
 
 		var modal_buttons = document.createElement('div');
-		modal_buttons.className = 'modal_buttons ' + btn_align;
+		modal_buttons.className = 'modal_buttons ' + config_arr[config_arr.length - 1].btn_align;
 
 		new_modal.appendChild(modal_content);
 		new_modal.appendChild(modal_buttons);
@@ -99,38 +96,6 @@ var popup;
 		target.className = target.className.replace(regex, '');
 	};
 
-	var resetModal = function resetModal() {
-		keyboard = true;
-		btn_align = 'left';
-		modal_size = 'small';
-		bg_overlay_color = '#000';
-		modal_effect = 'top';
-	};
-
-	var loadButtons = function loadButtons(popup_type) {
-		document.getElementById(curr_modal).getElementsByClassName('modal_buttons')[0].innerHTML = "";
-
-		for (var keys in modal_btns) {
-			if (popup_type == 'alert' && Object.keys(modal_btns).indexOf(keys) == 1) {
-				continue;
-			}
-
-			var this_btn = modal_btns[keys];
-			var this_btn_id = undefined;
-
-			var btn_dom = document.createElement('a');
-			btn_dom.id = this_btn_id = this_btn.btn_id + '_' + modal_created;
-			btn_dom.className = this_btn.btn_class;
-			btn_dom.innerText = this_btn.inner_text;
-
-			document.getElementById(curr_modal).getElementsByClassName('modal_buttons')[0].appendChild(btn_dom);
-
-			document.getElementById(this_btn_id).addEventListener('click', function (e) {
-				loadCallback(e);
-			});
-		}
-	};
-
 	var loadCallback = function loadCallback(e) {
 		var callback = cb_arr[cb_arr.length - 1],
 		    cb_obj = {
@@ -165,10 +130,29 @@ var popup;
 		}
 
 		hideModal();
+	};
 
-		document.removeEventListener('keydown', keydownEvent);
+	var loadButtons = function loadButtons(popup_type) {
 
-		cb_arr.pop();
+		for (var keys in modal_btns) {
+			if (popup_type == 'alert' && Object.keys(modal_btns).indexOf(keys) == 1) {
+				continue;
+			}
+
+			var this_btn = modal_btns[keys];
+			var this_btn_id = undefined;
+
+			var btn_dom = document.createElement('a');
+			btn_dom.id = this_btn_id = this_btn.btn_id + '_' + modal_created;
+			btn_dom.className = this_btn.btn_class;
+			btn_dom.innerHTML = this_btn.inner_text;
+
+			document.getElementById(curr_modal).getElementsByClassName('modal_buttons')[0].appendChild(btn_dom);
+
+			document.getElementById(this_btn_id).addEventListener('click', function (e) {
+				loadCallback(e);
+			});
+		}
 	};
 
 	var keydownEvent = function keydownEvent(e) {
@@ -177,73 +161,115 @@ var popup;
 		}
 	};
 
+	var backdropClose = function backdropClose(e) {
+		loadCallback(e);
+	};
+
+	var enableBackdropClose = function enableBackdropClose() {
+		document.getElementById('modal_backdrop').removeEventListener('click', backdropClose);
+
+		if (config_arr[config_arr.length - 1].backdrop_close) {
+			document.getElementById(curr_backdrop).addEventListener('click', backdropClose);
+		}
+	};
+
 	var attachKeyboardEvent = function attachKeyboardEvent() {
 		document.removeEventListener('keydown', keydownEvent);
-		document.addEventListener('keydown', keydownEvent);
+
+		if (config_arr[config_arr.length - 1].keyboard) {
+			document.addEventListener('keydown', keydownEvent);
+		}
 	};
 
 	var showModal = function showModal() {
 		var backdrop_dom = document.createElement('div');
+		backdrop_dom.id = curr_backdrop;
 		backdrop_dom.className = 'modal_backdrop fade';
-		backdrop_dom.style.background = bg_overlay_color;
 
-		document.getElementById(curr_modal).style.display = 'block';
+		document.getElementById(curr_modal).style.zIndex = 5 + modal_created * 10;
 
 		if (modal_created < 2) {
 			document.body.appendChild(backdrop_dom);
 		} else {
-			removeClass(document.getElementById('popup_modal_' + (modal_created - 1)), 'in');
+			for (var i = modal_created - 1; i > 0; i--) {
+				document.getElementById('popup_modal_' + i).style.transform = 'translate(-' + (modal_created - i) * 20 + 'px, -' + (modal_created - i) * 20 + 'px)';
+			}
+
+			document.getElementById(curr_backdrop).style.zIndex = modal_created * 10;
+
 			console.log('popup_modal_' + (modal_created - 1) + ' : hidden');
 		}
 
+		document.getElementById(curr_backdrop).style.background = config_arr[config_arr.length - 1].bg_overlay_color;
+
 		setTimeout(function () {
-			addClass(document.getElementsByClassName('modal_backdrop')[0], 'in');
+			if (modal_created < 2) {
+				addClass(document.getElementById(curr_backdrop), 'in');
+			}
 
 			setTimeout(function () {
 				addClass(document.getElementById(curr_modal), 'in');
 				console.log(curr_modal + ' : shown');
+
+				var input_dom = document.getElementById(curr_modal).getElementsByClassName('modal_input')[0];
+				if (input_dom) {
+					input_dom.focus();
+				}
+
+				enableBackdropClose();
+				attachKeyboardEvent();
 			}, 150);
 		}, 150);
-
-		var input_dom = document.getElementById(curr_modal).getElementsByClassName('modal_input')[0];
-		if (input_dom) {
-			input_dom.focus();
-		}
 	};
 
 	var hideModal = function hideModal() {
+		document.removeEventListener('keydown', keydownEvent);
+		document.getElementById('modal_backdrop').removeEventListener('click', backdropClose);
+
 		removeClass(document.getElementById(curr_modal), 'in');
 		console.log(curr_modal + ' : hidden');
 
 		setTimeout(function () {
-			document.getElementById(curr_modal).style.display = 'none';
-
 			if (modal_created < 2) {
-				removeClass(document.getElementsByClassName('modal_backdrop')[0], 'in');
+				removeClass(document.getElementById(curr_backdrop), 'in');
 			}
 
 			setTimeout(function () {
-				if (modal_created < 2) {
-					document.body.removeChild(document.getElementsByClassName('modal_backdrop')[0]);
-				} else {
-					addClass(document.getElementById('popup_modal_' + (modal_created - 1)), 'in');
-					console.log('popup_modal_' + (modal_created - 1) + ' : shown');
-
-					var input_dom = document.getElementById('popup_modal_' + (modal_created - 1)).getElementsByClassName('modal_input')[0];
-					if (input_dom) {
-						input_dom.focus();
-					}
-
-					if (keyboard) {
-						attachKeyboardEvent();
-					}
-				}
-
 				document.body.removeChild(document.getElementById(curr_modal));
 
 				addRemoveModal(false);
 
-				resetModal();
+				config_arr.pop();
+				cb_arr.pop();
+
+				if (modal_created < 1) {
+					document.body.removeChild(document.getElementById(curr_backdrop));
+				} else {
+					document.getElementById(curr_backdrop).style.background = config_arr[config_arr.length - 1].bg_overlay_color;
+					document.getElementById(curr_backdrop).style.zIndex = modal_created * 10;
+
+					for (var i = modal_created; i > 0; i--) {
+						document.getElementById('popup_modal_' + i).style.transform = 'translate(-' + (modal_created - i) * 20 + 'px, -' + (modal_created - i) * 20 + 'px)';
+
+						if (i == modal_created) {
+							if (document.getElementById(curr_modal).style.removeProperty) {
+								document.getElementById(curr_modal).style.removeProperty('transform');
+							} else {
+								document.getElementById(curr_modal).style.removeAttribute('transform');
+							}
+						}
+					}
+
+					console.log('popup_modal_' + modal_created + ' : shown');
+
+					var input_dom = document.getElementById('popup_modal_' + modal_created).getElementsByClassName('modal_input')[0];
+					if (input_dom) {
+						input_dom.focus();
+					}
+
+					enableBackdropClose();
+					attachKeyboardEvent();
+				}
 			}, 150);
 		}, 150);
 	};
@@ -253,7 +279,8 @@ var popup;
 		    placeholder = "",
 		    content_dom = document.createElement('div'),
 		    user_ok = undefined,
-		    user_cancel = undefined;
+		    user_cancel = undefined,
+		    config = {};
 
 		try {
 			if (options && (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
@@ -266,10 +293,22 @@ var popup;
 
 				if (options.keyboard !== undefined) {
 					if (typeof options.keyboard === 'boolean') {
-						keyboard = options.keyboard;
+						config.keyboard = options.keyboard;
 					} else {
 						throw 'keyboard is not type boolean';
 					}
+				} else {
+					config.keyboard = keyboard;
+				}
+
+				if (options.backdrop_close !== undefined) {
+					if (typeof options.backdrop_close === 'boolean') {
+						config.backdrop_close = options.backdrop_close;
+					} else {
+						throw 'backdrop_close is not type boolean';
+					}
+				} else {
+					config.backdrop_close = backdrop_close;
 				}
 
 				if (options.placeholder) {
@@ -328,36 +367,32 @@ var popup;
 				}
 
 				if (options.btn_align) {
-					if (options.btn_align === 'left' || options.btn_align === 'right') {
-						btn_align = options.btn_align;
-					} else {
+					if (!(options.btn_align === 'left' || options.btn_align === 'right')) {
 						throw 'btn_align is not type string and only accepts value of "left" or "right"';
 					}
 				}
+				config.btn_align = options.btn_align || btn_align;
 
 				if (options.modal_size) {
-					if (typeof options.modal_size === 'number' || options.modal_size === 'large' || options.modal_size === 'medium' || options.modal_size === 'small') {
-						modal_size = options.modal_size;
-					} else {
+					if (!(typeof options.modal_size === 'number' || options.modal_size === 'large' || options.modal_size === 'medium' || options.modal_size === 'small')) {
 						throw 'modal_size is not type number / string and only accepts value of "small", "medium" or "large"';
 					}
 				}
+				config.modal_size = options.modal_size || modal_size;
 
 				if (options.bg_overlay_color) {
-					if (typeof options.bg_overlay_color === 'string') {
-						bg_overlay_color = options.bg_overlay_color;
-					} else {
+					if (typeof options.bg_overlay_color !== 'string') {
 						throw 'bg_overlay_color is not type string';
 					}
 				}
+				config.bg_overlay_color = options.bg_overlay_color || bg_overlay_color;
 
 				if (options.effect) {
-					if (options.effect === 'top' || options.effect === 'bottom' || options.effect === 'right' || options.effect === 'left' || options.effect === 'none') {
-						modal_effect = options.effect;
-					} else {
-						throw 'effect is not type string';
+					if (!(options.effect === 'top' || options.effect === 'bottom' || options.effect === 'right' || options.effect === 'left' || options.effect === 'none')) {
+						throw 'effect is not type string and onlty accepts value of "top", "bottom", "right", "left" or "none"';
 					}
 				}
+				config.modal_effect = options.effect || modal_effect;
 			} else {
 				throw 'No content specified.';
 			}
@@ -365,6 +400,8 @@ var popup;
 			console.warn(err + '. Rollback.');
 			return;
 		}
+
+		config_arr.push(config);
 
 		if (callback) {
 			cb_arr.push(callback);
@@ -375,10 +412,6 @@ var popup;
 		createModal();
 
 		loadButtons(type);
-
-		if (keyboard) {
-			attachKeyboardEvent();
-		}
 
 		document.getElementById(curr_modal).getElementsByClassName('modal_content')[0].appendChild(content_dom);
 

@@ -65,13 +65,23 @@
 					<td>
 						The content to be shown in the popup modal. DOM element is acceptable too. Popup modal will not be shown if there is no content.
 					</td>
-					<!-- <td>--</td> -->
+					<!-- <td></td> -->
 				</tr>
 				<tr>
 					<td>keyboard : boolean</td>
 					<td>true</td>
 					<td>
 						To enable 'enter' and 'esc' key on 'Ok' and 'Cancel' button respectively.
+					</td>
+					<!-- <td>
+						<a id="key_false" class="demo_btn">keyboard : false</a>
+					</td> -->
+				</tr>
+				<tr>
+					<td>backdrop_close : boolean</td>
+					<td>true</td>
+					<td>
+						Close modal by clicking outside the popup modal box.
 					</td>
 					<!-- <td>
 						<a id="key_false" class="demo_btn">keyboard : false</a>
@@ -154,7 +164,7 @@
 					<td>bg_overlay_color : string</td>
 					<td>'#000'</td>
 					<td>
-						The overlay background color of the popup modal.
+						The overlay background color of the popup modal. Eg: 'red' or '#f00'
 					</td>
 					<!-- <td>
 						<a id="bg_red" class="demo_btn">bg_overlay_color : 'red'</a>
@@ -183,8 +193,12 @@
 					&nbsp;&nbsp;keyboard : false,<br>
 					&nbsp;&nbsp;btn_align : 'right',<br>
 					&nbsp;&nbsp;effect : 'none',<br>
+					&nbsp;&nbsp;modal_size : 'medium',<br>
 					&nbsp;&nbsp;default_btns : {<br>
 					&nbsp;&nbsp;&nbsp;&nbsp;ok : 'the name you wanted to change'<br>
+					&nbsp;&nbsp;}<br>
+					&nbsp;&nbsp;custom_btns : {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;hello : 'Hello, is me...'<br>
 					&nbsp;&nbsp;}<br>
 				});
 			</span>
@@ -215,7 +229,7 @@
 				<tr>
 					<td>input_value</td>
 					<td>
-						Get the value for input value for prompt popup modal.
+						Get the value for input value for 'prompt' popup modal.
 					</td>
 				</tr>
 			</table>
@@ -240,7 +254,9 @@
 		</div>
 		<a id="callback_demo" class="demo_btn">Demo </a>
 	</section>
- 	<script src="./js/popupmodal-min.js"></script>
+	<!-- IE -->
+	<script src="./js/polyfill.js"></script>
+ 	<script src="./js/popupmodal.js"></script>
  	<script src="./demo.js"></script>
 </body>
 </html>

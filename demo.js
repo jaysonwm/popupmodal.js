@@ -28,7 +28,6 @@ document.getElementById('simple_prompt').addEventListener('click', function(){
 				popup.alert({
 						content: 'You clicked cancel.'
 				});
-				console.log(config.input_value);
 			}
 		}
 	);
@@ -39,9 +38,13 @@ document.getElementById('option_demo').addEventListener('click', function(){
 	  content: 'Hello from the other side...',
 	  keyboard : false,
 	  btn_align : 'right',
+	  modal_size : 'medium',
 	  effect : 'none',
 	  default_btns : {
 	    ok : 'the name you wanted to change'
+	  },
+	  custom_btns : {
+	  	hello : 'Hello, is me...'
 	  }
 	});
 });
