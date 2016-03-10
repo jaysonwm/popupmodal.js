@@ -8,7 +8,6 @@ body {
   font-size: 18px;
 }
 a {
-  text-decoration: none;
   color: #F5F5F5;
 }
 a:hover {
@@ -24,9 +23,6 @@ span {
 }
 #intro .version {
   font-size: 14px;
-}
-#intro .version a {
-  text-decoration: underline;
 }
 #intro h1 {
   font-weight: normal;

@@ -10,8 +10,8 @@
 	<section id="intro">
 		<h1>popupmodal.js</h1>
 		<span class="version">
-			Version 1.0.0<br>
-			<a href="https://github.com/jaysonwm/popcat" target="_blank">Github</a>
+			Version 1.1.0<br>
+			<a href="https://github.com/jaysonwm/popupmodal.js" target="_blank">Github</a>
 		</span>
 		<br>
 		<span>A pure and simple javascript popup modal plugin.<br/>There are 3 types of popup modal types.<br/>Below is a simple simple demo.</span>
@@ -20,7 +20,7 @@
 			<a id="simple_confirm" class="demo_btn">Confirm</a>
 			<a id="simple_prompt" class="demo_btn">Prompt</a>
 		</div>
-		<span>Code example : </span>
+		<span>Code examples : </span>
 		<div class="code_block">
 			<span class="comment">// Alert</span>
 			<span class="code">popup.alert( { content : .... } );</span><br>
@@ -37,7 +37,8 @@
 			<span class="commment">// CSS</span>
 			<span class="code">&lt;link rel="stylesheet" href="your-path/popupmodal.css" /&gt;</span><br>
 			<span class="commment">// JS</span>
-			<span class="code">&lt;script src="your-path/popupmodal-min.js">&gt;&lt;/script&gt;</span>
+			<span class="code">&lt;script src="your-path/polyfill.js"&gt;&lt;/script&gt;</span>
+			<span class="code">&lt;script src="your-path/popupmodal-min.js"&gt;&lt;/script&gt;</span>
 		</div>
 		<span>and attach your desire element with a click event listener.</span>
 		<div class="code_block">
@@ -47,7 +48,11 @@
 				}
 			</span>
 		</div>
-		<span>...and you're done!</span>
+		<span>...and you're done!</span><br>
+		<span>
+			<i>** Important note here, the original code was written using ES6, and it is compiled using <a href="http://babeljs.io/" target="_blank">Babel</a>.
+			As you might have noticed 'polyfill.js' on the above, it needs to be included in the plugin for Internet Explorer to work, and it has to be declared above 'popupmodal-min.js'</i>
+		</span>
 	</section>
 	<section id="advanced">
 		<h1>&lt;Options&gt;</h1>
@@ -256,7 +261,7 @@
 	</section>
 	<!-- IE -->
 	<script src="./js/polyfill.js"></script>
- 	<script src="./js/popupmodal.js"></script>
+ 	<script src="./js/popupmodal-min.js"></script>
  	<script src="./demo.js"></script>
 </body>
 </html>
